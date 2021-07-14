@@ -5,7 +5,7 @@ import com.ranzed.sampletodo.di.DaggerAppComponent
 
 class App : Application() {
 
-    val appComponent = DaggerAppComponent.create()
+    val appComponent = DaggerAppComponent.factory().create(this)
 
     override fun onCreate() {
         super.onCreate()

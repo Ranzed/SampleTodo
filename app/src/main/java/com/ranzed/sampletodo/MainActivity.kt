@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadTodoItems() : Array<TodoTask> {
-        return Array(5, { i : Int -> TodoTask(i.toString(), null, Date(), false) } )
+        return Array(5, { i : Int -> TodoTask(i, i.toString(), null, Date(), false) } )
     }
 
 }

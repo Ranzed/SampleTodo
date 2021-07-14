@@ -1,5 +1,6 @@
 package com.ranzed.sampletodo.di
 
+
 import android.content.Context
 import com.ranzed.sampletodo.MainActivity
 import com.ranzed.sampletodo.data.TodoTaskRepository
@@ -8,7 +9,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component
+@Component(modules = [LocalStoreModule::class])
 interface AppComponent {
 
     @Component.Factory

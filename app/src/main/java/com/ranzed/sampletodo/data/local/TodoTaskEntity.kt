@@ -9,6 +9,6 @@ data class TodoTaskEntity (
     @PrimaryKey val id : Int,
     val Title : String,
     val Description : String?,
-    val Datetime : Date,
+    val Datetime : Long,
     val IsDone : Boolean
 )
