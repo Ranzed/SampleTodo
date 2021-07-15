@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TodoApp</string>
+    <string name="loading_todotasklist">Загрузка списка задач…</string>
 </resources>

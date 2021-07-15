@@ -9,9 +9,7 @@ class ShowList @Inject constructor(
     private val navigation: ITodoTaskNavigation) {
 
     fun run() {
-        // create ViewModel
-        // set repo to viewModel
-        // showViewModel
+        navigation.showTodoTasksList()
     }
 
 }

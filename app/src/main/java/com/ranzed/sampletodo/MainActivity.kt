@@ -3,39 +3,30 @@ package com.ranzed.sampletodo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.ranzed.sampletodo.domain.TodoTask
-import com.ranzed.sampletodo.presentation.view.TodoListAdapter
-import java.util.*
+import com.ranzed.sampletodo.domain.usecase.ShowList
+import com.ranzed.sampletodo.presentation.TodoTaskNavigation
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    // norm
-
-
-
-    // oldschool
     private var rootView : ViewGroup? = null
+
+    @Inject
+    lateinit var showListUseCase : ShowList
+
+    @Inject
+    lateinit var navigation : TodoTaskNavigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_main)
         rootView = findViewById(R.id.root)
-        initView()
+        navigation.ActiveScreen = this
     }
 
-    private fun initView() {
-        val recyclerView = RecyclerView(this)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = TodoListAdapter()
-        adapter.items.addAll(loadTodoItems())
-        recyclerView.adapter = adapter
-        rootView?.addView(recyclerView)
+    override fun onResume() {
+        super.onResume()
+        showListUseCase.run()
     }
-
-    private fun loadTodoItems() : Array<TodoTask> {
-        return Array(5, { i : Int -> TodoTask(i, i.toString(), null, Date(), false) } )
-    }
-
 }
