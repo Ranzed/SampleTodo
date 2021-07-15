@@ -3,11 +3,13 @@ package com.ranzed.sampletodo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.ranzed.sampletodo.domain.usecase.ShowList
+import com.ranzed.sampletodo.presentation.ITodoTaskNavigator
 import com.ranzed.sampletodo.presentation.TodoTaskNavigation
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
 
     private var rootView : ViewGroup? = null
 
@@ -22,11 +24,12 @@ class MainActivity : AppCompatActivity() {
         (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_main)
         rootView = findViewById(R.id.root)
-        navigation.ActiveScreen = this
+        navigation.navigator = this
+        showListUseCase.run()
     }
 
-    override fun onResume() {
-        super.onResume()
-        showListUseCase.run()
+    override fun showFragment(f: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.root, f).commit()
     }
 }

@@ -1,28 +1,35 @@
 package com.ranzed.sampletodo.presentation
 
-import androidx.appcompat.app.AppCompatActivity
-import com.ranzed.sampletodo.R
+import androidx.fragment.app.Fragment
 import com.ranzed.sampletodo.domain.interfaces.ITodoTaskNavigation
+import com.ranzed.sampletodo.presentation.fragments.TodoTaskDetailFragment
 import com.ranzed.sampletodo.presentation.fragments.TodoTaskListFragment
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Простейшая навигация, отображающая фрагменты в переданном извне навигаторе, подобие "мини-Cicerone"
+ */
 @Singleton
 class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
 
-    var ActiveScreen : AppCompatActivity? = null
+    var navigator : ITodoTaskNavigator? = null
 
     override fun showTodoTasksList() {
-        val a = checkNotNull(ActiveScreen) {
-            "Need setup active screen"
+        val n = checkNotNull(navigator) {
+            "Need setup navigator screen"
         }
-        val t = a.supportFragmentManager.beginTransaction()
-        t.add(R.id.root, TodoTaskListFragment(), "")
-        t.commit()
+        n.showFragment(TodoTaskListFragment())
     }
 
     override fun showTodoTaskItem(id : Int) {
-        // create fragment
-        TODO("Not yet implemented")
+        val n = checkNotNull(navigator) {
+            "Need setup navigator screen"
+        }
+        n.showFragment(TodoTaskDetailFragment())
     }
+}
+
+interface ITodoTaskNavigator {
+    fun showFragment(f : Fragment)
 }
