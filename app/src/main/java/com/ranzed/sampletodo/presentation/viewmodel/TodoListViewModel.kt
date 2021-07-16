@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ranzed.sampletodo.domain.TodoTask
 import com.ranzed.sampletodo.domain.interfaces.ITodoTaskRepository
+import com.ranzed.sampletodo.domain.usecase.ShowDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,6 +14,9 @@ class TodoListViewModel : ViewModel() {
 
     @Inject
     lateinit var repo : ITodoTaskRepository
+
+    @Inject
+    lateinit var showDetail: ShowDetail
 
     val TodoTasks : MutableLiveData<List<TodoTask>> = MutableLiveData()
 
@@ -25,5 +29,9 @@ class TodoListViewModel : ViewModel() {
             TodoTasks.postValue(tasks)
             IsLoading.postValue(false)
         }
+    }
+
+    fun clickCreateBtn() {
+        showDetail.run()
     }
 }

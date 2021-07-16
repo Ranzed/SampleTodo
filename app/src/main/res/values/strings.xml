@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TodoApp</string>
     <string name="loading_todotasklist">Загрузка списка задач…</string>
+    <string name="create_new_task">Добавить задачу</string>
+
+    <string name="hint_task_title">Введите наименование задачи</string>
+    <string name="hint_task_description">Укажите описание задачи</string>
+    <string name="hint_task_time">Укажите срок</string>
 </resources>
