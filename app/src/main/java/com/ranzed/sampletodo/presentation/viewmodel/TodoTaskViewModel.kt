@@ -20,19 +20,21 @@ class TodoTaskViewModel : ViewModel() {
     @Inject lateinit var showList: ShowList
 
     private var TodoTask : TodoTask? = null
+    private var dateTimeField : Date? = null
 
     val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
     val Title : MutableLiveData<String> = MutableLiveData("")
     val Description : MutableLiveData<String> = MutableLiveData()
     val Datetime : MutableLiveData<String> = MutableLiveData()
-    val CanSave : MutableLiveData<Boolean> = MutableLiveData(true)
+    val CanSave : MutableLiveData<Boolean> = MutableLiveData(false)
     val CanDelete : MutableLiveData<Boolean> = MutableLiveData(false)
-
-    private var dateTimeField : Date? = null
 
     fun load(id : Int) {
         IsLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
+            CanSave.postValue(false)
+            CanDelete.postValue(false)
+
             val task = repo.getTodoTask(id)
             TodoTask = task
             Title.postValue(task.Title)
@@ -40,6 +42,8 @@ class TodoTaskViewModel : ViewModel() {
             dateTimeField = task.Datetime
             Datetime.postValue(formatDatetime(task.Datetime))
             IsLoading.postValue(false)
+            CanSave.postValue(true) // после загрузки можем сохранять
+            CanDelete.postValue(task.id != 0)
         }
     }
 

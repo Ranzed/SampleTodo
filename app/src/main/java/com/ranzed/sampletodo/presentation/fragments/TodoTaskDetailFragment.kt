@@ -1,8 +1,6 @@
 package com.ranzed.sampletodo.presentation.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -28,14 +26,21 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         super.onViewCreated(view, savedInstanceState)
         vm = ViewModelProvider(requireActivity()).get(TodoTaskViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
-        initTitle()
-        initDescription()
-        vm.Title.observe(viewLifecycleOwner, { t ->  })
-        vm.Description.observe(viewLifecycleOwner, { t -> })
-        vm.Datetime.observe(viewLifecycleOwner, { t -> dateTime.text = t })
+
+        vm.Title.observe(viewLifecycleOwner, { t -> setTextValue(t, title) })
+        vm.Description.observe(viewLifecycleOwner, { t -> setTextValue(t, description) })
+        vm.Datetime.observe(viewLifecycleOwner, { t -> setTextValue(t, dateTime) })
         vm.CanSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
-        vm.CanDelete.observe(viewLifecycleOwner, { t -> if (t) View.VISIBLE else View.GONE })
+        vm.CanDelete.observe(viewLifecycleOwner, { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
     }
+
+    private fun setTextValue(s : String?, t : TextView) {
+        val newText = s ?: ""
+        val currentValue = t.text.toString()
+        if (!newText.equals(currentValue))
+            t.text = newText
+    }
+
 
     private fun initTitle() : EditText {
         val e = requireView().findViewById<EditText>(R.id.task_title)
@@ -44,21 +49,6 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
             if (!s.equals(vm.Title.value))
                 vm.Title.value = s
         }
-//        e.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                // TODO("Not yet implemented")
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                // TODO("Not yet implemented")
-//            }
-//
-//            override fun afterTextChanged(e: Editable?) {
-//                val s = e.toString()
-//                if (!s.equals(vm.Title.value))
-//                    vm.Title.value = s
-//            }
-//        })
         return e
     }
 
@@ -73,7 +63,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     private fun initDateTime() : TextView {
         val t = requireView().findViewById<TextView>(R.id.task_datetime)
-        t.setOnClickListener { chooseDate() }
+        t.setOnClickListener(this)
         return t
     }
 
@@ -106,6 +96,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         when (v.id) {
             R.id.btn_save -> vm.clickSave()
             R.id.btn_delete -> vm.clickDelete()
+            R.id.task_datetime -> chooseDate()
         }
     }
 
