@@ -12,11 +12,8 @@ import javax.inject.Inject
 
 class TodoListViewModel : ViewModel() {
 
-    @Inject
-    lateinit var repo : ITodoTaskRepository
-
-    @Inject
-    lateinit var showDetail: ShowDetail
+    @Inject lateinit var repo : ITodoTaskRepository
+    @Inject lateinit var showDetail: ShowDetail
 
     val TodoTasks : MutableLiveData<List<TodoTask>> = MutableLiveData()
 

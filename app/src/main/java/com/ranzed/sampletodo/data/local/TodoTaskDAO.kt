@@ -12,10 +12,10 @@ interface TodoTaskDAO {
     fun loadAllTodoTasks() : List<TodoTaskEntity>
 
     @Query("SELECT * FROM TodoTaskEntity WHERE id=:taskId")
-    fun getTodoTask(taskId : Int) : TodoTaskEntity
+    fun getTodoTask(taskId : Int) : TodoTaskEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveTodoTask(t : TodoTaskEntity)
+    fun saveTodoTask(t : TodoTaskEntity) : Long
 
     @Query("DELETE FROM TodoTaskEntity WHERE id=:taskId")
     fun deleteTodoTask(taskId : Int)

@@ -42,14 +42,14 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
     }
 
     private fun initRecycler() : RecyclerView  {
-        var r = requireView().findViewById<RecyclerView>(R.id.recycler);
+        val r = requireView().findViewById<RecyclerView>(R.id.recycler);
         r.layoutManager = LinearLayoutManager(requireContext())
         r.adapter = adapter
         return r
     }
 
     private fun initCreateButton() : Button {
-        var b = requireView().findViewById<Button>(R.id.btn_create_new);
+        val b = requireView().findViewById<Button>(R.id.btn_create_new);
         b.setOnClickListener(this)
         return b
     }

@@ -1,6 +1,7 @@
 package com.ranzed.sampletodo.data
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import com.ranzed.sampletodo.data.local.TodoTaskDB
 import com.ranzed.sampletodo.data.local.TodoTaskEntity
@@ -30,11 +31,14 @@ class LocalDataSource @Inject constructor(ctx : Context) {
 
     fun getTodoTask(id : Int) : TodoTask {
         val t = roomDb.dao().getTodoTask(id)
-        return TodoTask(t.id, t.Title, t.Description, Date(t.Datetime), t.IsDone)
+        if (t != null)
+            return TodoTask(t.id, t.Title, t.Description, Date(t.Datetime), t.IsDone)
+        return TodoTask(0, "", null, Date(0), false)
     }
 
     fun saveTodoTask(t : TodoTask) {
-        roomDb.dao().saveTodoTask(TodoTaskEntity(t.id, t.Title, t.Description, t.Datetime.time, t.IsDone))
+        val newId = roomDb.dao().saveTodoTask(TodoTaskEntity(t.id, t.Title, t.Description, t.Datetime.time, t.IsDone))
+        Log.i("LocalDataSource", "Save todoTask with id = {%s}".format(newId))
     }
 
     fun deleteTodoTask(id : Int) {

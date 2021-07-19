@@ -18,7 +18,7 @@ class ShowDetail @Inject constructor(
     }
 
     fun saveTodoTask(t : TodoTask) {
-
+        repo.saveTodoTask(t)
     }
 
     fun deleteTodoTask(id : Int) {
