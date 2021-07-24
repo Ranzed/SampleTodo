@@ -26,10 +26,21 @@ class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
         rootView = findViewById(R.id.root)
         navigation.navigator = this
         showListUseCase.run()
+        supportFragmentManager.addOnBackStackChangedListener {
+            val count = supportFragmentManager.backStackEntryCount
+            if (count == 0)
+                finish()
+        }
     }
 
-    override fun showFragment(f: Fragment) {
+    override fun pushFragment(f: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.root, f).commit()
+            .replace(R.id.root, f)
+            .addToBackStack(supportFragmentManager.backStackEntryCount.toString())
+            .commit()
+    }
+
+    override fun popFragment() {
+        supportFragmentManager.popBackStack()
     }
 }

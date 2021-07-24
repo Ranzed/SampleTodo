@@ -16,24 +16,23 @@ import com.ranzed.sampletodo.presentation.viewmodel.TodoListViewModel
 
 class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListener {
 
-    private val recycler : RecyclerView by lazy { initRecycler() }
+    private var recycler : RecyclerView? = null
     private val adapter = TodoListAdapter { vm.clickTodoItem(it) }
-    private val loadingBox : ViewGroup by lazy { requireView().findViewById(R.id.loading_container) }
-    private val button : Button by lazy { initCreateButton() }
+    private var loadingBox : ViewGroup? = null
+    private var button : Button? = null
 
     private lateinit var vm : TodoListViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recycler = initRecycler()
+        loadingBox = requireView().findViewById(R.id.loading_container)
+        button = initCreateButton()
+
         vm = ViewModelProvider(requireActivity()).get(TodoListViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
-
-        vm.IsLoading.observe(viewLifecycleOwner, { isLoading ->
-            loadingBox.visibility = if (isLoading) View.VISIBLE else View.GONE
-            recycler.visibility = if (isLoading) View.GONE else View.VISIBLE
-            button.isEnabled = !isLoading
-        })
-        vm.TodoTasks.observe(viewLifecycleOwner, { list -> setupList(list) })
+        vm.IsLoading.observe(viewLifecycleOwner, { setupViewVisibility(it) })
+        vm.TodoTasks.observe(viewLifecycleOwner, { setupList(it) })
     }
 
     override fun onResume() {
@@ -54,6 +53,12 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
         return b
     }
 
+    private fun setupViewVisibility(isLoading : Boolean) {
+        loadingBox?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        recycler?.visibility = if (isLoading) View.GONE else View.VISIBLE
+        button?.isEnabled = !isLoading
+    }
+
     private fun setupList(todoTasks : List<TodoTask>) {
         adapter.items.clear()
         adapter.items.addAll(todoTasks)
@@ -67,6 +72,5 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
         when (v.id) {
             R.id.btn_create_new -> vm.clickCreateBtn()
         }
-
     }
 }

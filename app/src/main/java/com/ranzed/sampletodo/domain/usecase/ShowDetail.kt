@@ -19,10 +19,12 @@ class ShowDetail @Inject constructor(
 
     fun saveTodoTask(t : TodoTask) {
         repo.saveTodoTask(t)
+        navigation.showPreviousPage()
     }
 
     fun deleteTodoTask(id : Int) {
-
+        repo.deleteTodoTask(id)
+        navigation.showPreviousPage()
     }
 
 

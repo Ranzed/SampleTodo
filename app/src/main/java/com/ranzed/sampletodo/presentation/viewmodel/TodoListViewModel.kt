@@ -20,7 +20,7 @@ class TodoListViewModel : ViewModel() {
     val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun load() {
-        IsLoading.value = true
+        IsLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = repo.loadAllTodoTasks()
             TodoTasks.postValue(tasks)

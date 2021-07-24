@@ -6,4 +6,6 @@ interface ITodoTaskNavigation {
 
     fun showTodoTaskItem(id : Int)
 
+    fun showPreviousPage()
+
 }

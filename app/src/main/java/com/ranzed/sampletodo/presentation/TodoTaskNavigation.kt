@@ -17,22 +17,24 @@ class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
     var navigator : ITodoTaskNavigator? = null
 
     override fun showTodoTasksList() {
-        val n = checkNotNull(navigator) {
-            "Need setup navigator screen"
-        }
-        n.showFragment(TodoTaskListFragment())
+        val n = checkNotNull(navigator) { "Need setup navigator screen" }
+        n.pushFragment(TodoTaskListFragment())
     }
 
     override fun showTodoTaskItem(id : Int) {
-        val n = checkNotNull(navigator) {
-            "Need setup navigator screen"
-        }
-        n.showFragment(TodoTaskDetailFragment().also {
+        val n = checkNotNull(navigator) { "Need setup navigator screen" }
+        n.pushFragment(TodoTaskDetailFragment().also {
             it.arguments = Bundle().also {
                     b -> b.putInt(TodoTaskDetailFragment.id_key, id) } })
+    }
+
+    override fun showPreviousPage() {
+        val n = checkNotNull(navigator) { "Need setup navigator screen" }
+        n.popFragment()
     }
 }
 
 interface ITodoTaskNavigator {
-    fun showFragment(f : Fragment)
+    fun pushFragment(f : Fragment)
+    fun popFragment()
 }

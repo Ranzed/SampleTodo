@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.ranzed.sampletodo.domain.TodoTask
 import com.ranzed.sampletodo.domain.interfaces.ITodoTaskRepository
 import com.ranzed.sampletodo.domain.usecase.ShowDetail
-import com.ranzed.sampletodo.domain.usecase.ShowList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -16,7 +15,6 @@ class TodoTaskViewModel : ViewModel() {
 
     @Inject lateinit var repo : ITodoTaskRepository
     @Inject lateinit var showDetail: ShowDetail
-    @Inject lateinit var showList: ShowList
 
     private var dateTimeField : Date? = null
     private var todoTaskId : Int = 0
@@ -54,22 +52,18 @@ class TodoTaskViewModel : ViewModel() {
     fun clickSave() {
         val task = rebuildTodoTask()
         if (task.Title.isEmpty()) {
-            // snackbar
+            // todo snackbar info
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
             showDetail.saveTodoTask(task)
-            showList.run()
         }
     }
 
     fun clickDelete() {
-        showDetail.deleteTodoTask(todoTaskId)
-        showList.run()
-    }
-
-    fun clickBack() {
-        showList.run()
+        viewModelScope.launch(Dispatchers.IO) {
+            showDetail.deleteTodoTask(todoTaskId)
+        }
     }
 
     private fun rebuildTodoTask() : TodoTask {
