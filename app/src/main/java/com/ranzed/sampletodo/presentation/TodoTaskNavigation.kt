@@ -1,5 +1,6 @@
 package com.ranzed.sampletodo.presentation
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ranzed.sampletodo.domain.interfaces.ITodoTaskNavigation
 import com.ranzed.sampletodo.presentation.fragments.TodoTaskDetailFragment
@@ -26,7 +27,9 @@ class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
         val n = checkNotNull(navigator) {
             "Need setup navigator screen"
         }
-        n.showFragment(TodoTaskDetailFragment())
+        n.showFragment(TodoTaskDetailFragment().also {
+            it.arguments = Bundle().also {
+                    b -> b.putInt(TodoTaskDetailFragment.id_key, id) } })
     }
 }
 

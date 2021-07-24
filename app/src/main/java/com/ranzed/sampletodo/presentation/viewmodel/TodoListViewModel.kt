@@ -31,4 +31,8 @@ class TodoListViewModel : ViewModel() {
     fun clickCreateBtn() {
         showDetail.run()
     }
+
+    fun clickTodoItem(id : Int) {
+        showDetail.run(id)
+    }
 }

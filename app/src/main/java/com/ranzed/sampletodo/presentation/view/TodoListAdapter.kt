@@ -7,13 +7,13 @@ import com.ranzed.sampletodo.R
 import com.ranzed.sampletodo.domain.TodoTask
 import java.util.ArrayList
 
-class TodoListAdapter : RecyclerView.Adapter<TodoTaskViewHolder>() {
+class TodoListAdapter(private val listItemClickListener: ListItemClickListener) : RecyclerView.Adapter<TodoTaskViewHolder>() {
 
     val items : MutableList<TodoTask> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
         return TodoTaskViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.todotaskitem, parent, false))
+            .inflate(R.layout.todotaskitem, parent, false), listItemClickListener)
     }
 
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
@@ -22,4 +22,8 @@ class TodoListAdapter : RecyclerView.Adapter<TodoTaskViewHolder>() {
     }
 
     override fun getItemCount(): Int = items.size
+}
+
+fun interface ListItemClickListener {
+    fun onListItemClick(id : Int)
 }

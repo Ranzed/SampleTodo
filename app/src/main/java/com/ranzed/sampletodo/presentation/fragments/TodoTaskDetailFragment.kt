@@ -16,6 +16,10 @@ import java.util.*
 
 class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickListener {
 
+    companion object Key {
+        const val id_key = "todo_key"
+    }
+
     private val title : EditText by lazy { initTitle() }
     private val description : EditText by lazy { initDescription() }
     private val dateTime : TextView by lazy { initDateTime() }
@@ -93,7 +97,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     override fun onResume() {
         super.onResume()
-        vm.load(arguments?.getInt("todo_key") ?: 0) // load on every resume
+        vm.load(arguments?.getInt(id_key) ?: 0) // load on every resume
     }
 
     override fun onClick(v: View?) {

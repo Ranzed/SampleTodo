@@ -17,7 +17,7 @@ import com.ranzed.sampletodo.presentation.viewmodel.TodoListViewModel
 class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListener {
 
     private val recycler : RecyclerView by lazy { initRecycler() }
-    private val adapter = TodoListAdapter()
+    private val adapter = TodoListAdapter { vm.clickTodoItem(it) }
     private val loadingBox : ViewGroup by lazy { requireView().findViewById(R.id.loading_container) }
     private val button : Button by lazy { initCreateButton() }
 

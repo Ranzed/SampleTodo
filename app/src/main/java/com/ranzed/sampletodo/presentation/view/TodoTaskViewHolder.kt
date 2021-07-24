@@ -6,21 +6,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ranzed.sampletodo.R
 import com.ranzed.sampletodo.domain.TodoTask
 
-class TodoTaskViewHolder : RecyclerView.ViewHolder {
+class TodoTaskViewHolder(itemView: View, private val clickListener: ListItemClickListener) : RecyclerView.ViewHolder(itemView){
 
-    private val title : TextView
-    private val description : TextView
-    private val dateTime : TextView
-    private val done : TextView
+    private val title : TextView = itemView.findViewById(R.id.title)
+    private val description : TextView = itemView.findViewById(R.id.description)
+    private val dateTime : TextView = itemView.findViewById(R.id.datetime)
+    private val done : TextView = itemView.findViewById(R.id.done)
+    private var todoTaskId : Int = 0
 
-    constructor(itemView: View) : super(itemView) {
-        title = itemView.findViewById(R.id.title)
-        description = itemView.findViewById(R.id.description)
-        dateTime = itemView.findViewById(R.id.datetime)
-        done = itemView.findViewById(R.id.done)
+    init {
+        itemView.setOnClickListener { clickListener.onListItemClick(todoTaskId) }
     }
 
     fun bind(task : TodoTask) {
+        todoTaskId = task.id
         title.text = task.Title
         description.text = task.Description
         dateTime.text = task.Datetime.toString() // todo
