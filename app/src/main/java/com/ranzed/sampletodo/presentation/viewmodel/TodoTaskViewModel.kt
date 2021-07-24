@@ -9,7 +9,6 @@ import com.ranzed.sampletodo.domain.usecase.ShowDetail
 import com.ranzed.sampletodo.domain.usecase.ShowList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 import java.util.*
 import javax.inject.Inject
 
@@ -19,8 +18,8 @@ class TodoTaskViewModel : ViewModel() {
     @Inject lateinit var showDetail: ShowDetail
     @Inject lateinit var showList: ShowList
 
-    private var TodoTask : TodoTask? = null
     private var dateTimeField : Date? = null
+    private var todoTaskId : Int = 0
 
     val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
     val Title : MutableLiveData<String> = MutableLiveData("")
@@ -36,7 +35,7 @@ class TodoTaskViewModel : ViewModel() {
             CanDelete.postValue(false)
 
             val task = repo.getTodoTask(id)
-            TodoTask = task
+            todoTaskId = id
             Title.postValue(task.Title)
             Description.postValue(task.Description)
             dateTimeField = task.Datetime
@@ -53,16 +52,20 @@ class TodoTaskViewModel : ViewModel() {
     }
 
     fun clickSave() {
-        TodoTask = rebuildTodoTask()
-        val task = TodoTask
-        if (task != null)
-            viewModelScope.launch(Dispatchers.IO) { showDetail.saveTodoTask(task) }
+        val task = rebuildTodoTask()
+        if (task.Title.isEmpty()) {
+            // snackbar
+            return
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            showDetail.saveTodoTask(task)
+            showList.run()
+        }
     }
 
     fun clickDelete() {
-        val task = TodoTask
-        if (task != null)
-            showDetail.deleteTodoTask(task.id)
+        showDetail.deleteTodoTask(todoTaskId)
+        showList.run()
     }
 
     fun clickBack() {
@@ -70,8 +73,10 @@ class TodoTaskViewModel : ViewModel() {
     }
 
     private fun rebuildTodoTask() : TodoTask {
-        val t = TodoTask ?: throw IllegalStateException("Try save unloaded task")
-        return TodoTask(t.id, Title.value ?: t.Title, Description.value, dateTimeField ?: Date(0), false )
+        return TodoTask(todoTaskId,
+            Title.value ?: "",
+            Description.value,
+            dateTimeField ?: Date(0), false )
     }
 
     private fun formatDatetime(d : Date) : String {

@@ -68,7 +68,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
     }
 
     private fun initSaveButton() : Button {
-        val b = requireView().findViewById<Button>(R.id.btn_save);
+        val b = requireView().findViewById<Button>(R.id.btn_save)
         b.setOnClickListener(this)
         return b
     }
