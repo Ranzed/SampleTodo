@@ -8,4 +8,6 @@
     <string name="hint_task_title">Введите наименование задачи</string>
     <string name="hint_task_description">Укажите описание задачи</string>
     <string name="hint_task_time">Укажите срок</string>
+
+    <string name="title_date_dialog">Укажите срок</string>
 </resources>

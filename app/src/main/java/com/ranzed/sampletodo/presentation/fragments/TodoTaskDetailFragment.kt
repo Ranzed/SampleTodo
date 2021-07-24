@@ -8,9 +8,11 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.ranzed.sampletodo.App
 import com.ranzed.sampletodo.R
 import com.ranzed.sampletodo.presentation.viewmodel.TodoTaskViewModel
+import java.util.*
 
 class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickListener {
 
@@ -36,8 +38,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     private fun setTextValue(s : String?, t : TextView) {
         val newText = s ?: ""
-        val currentValue = t.text.toString()
-        if (!newText.equals(currentValue))
+        if (!newText.equals(t.text.toString()))
             t.text = newText
     }
 
@@ -80,8 +81,14 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
     }
 
     private fun chooseDate() {
-        // todo datepicker
-        // ondatecheck = vm.setDate()
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(getString(R.string.title_date_dialog))
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+
+        datePicker.addOnPositiveButtonClickListener { vm.setDateTime(Date(it)) }
+        datePicker.addOnNegativeButtonClickListener { vm.setDateTime(Date(0)) }
+        datePicker.show(childFragmentManager, this.javaClass.name)
     }
 
     override fun onResume() {
@@ -99,6 +106,4 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
             R.id.task_datetime -> chooseDate()
         }
     }
-
-
 }
