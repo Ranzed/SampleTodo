@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ranzed.sampletodo.domain.TodoTask
 import com.ranzed.sampletodo.domain.interfaces.ITodoTaskRepository
 import com.ranzed.sampletodo.domain.usecase.ShowDetail
+import com.ranzed.sampletodo.presentation.format
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -37,7 +38,7 @@ class TodoTaskViewModel : ViewModel() {
             Title.postValue(task.Title)
             Description.postValue(task.Description)
             dateTimeField = task.Datetime
-            Datetime.postValue(formatDatetime(task.Datetime))
+            Datetime.postValue(task.Datetime.format())
             IsLoading.postValue(false)
             CanSave.postValue(true) // после загрузки можем сохранять
             CanDelete.postValue(task.id != 0)
@@ -46,7 +47,7 @@ class TodoTaskViewModel : ViewModel() {
 
     fun setDateTime(d : Date) {
         dateTimeField = d
-        Datetime.postValue(formatDatetime(d))
+        Datetime.postValue(d.format())
     }
 
     fun clickSave() {
@@ -71,9 +72,5 @@ class TodoTaskViewModel : ViewModel() {
             Title.value ?: "",
             Description.value,
             dateTimeField ?: Date(0), false )
-    }
-
-    private fun formatDatetime(d : Date) : String {
-        return if (d.time > 0) d.toString() else ""
     }
 }

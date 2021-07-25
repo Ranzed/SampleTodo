@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ranzed.sampletodo.R
 import com.ranzed.sampletodo.domain.TodoTask
+import com.ranzed.sampletodo.presentation.format
 
 class TodoTaskViewHolder(itemView: View, private val clickListener: ListItemClickListener) : RecyclerView.ViewHolder(itemView){
 
@@ -22,7 +23,7 @@ class TodoTaskViewHolder(itemView: View, private val clickListener: ListItemClic
         todoTaskId = task.id
         title.text = task.Title
         description.text = task.Description
-        dateTime.text = task.Datetime.toString() // todo
+        dateTime.text = task.Datetime.format()
         done.visibility = if (task.IsDone) View.VISIBLE else View.GONE
     }
 }
