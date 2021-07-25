@@ -9,6 +9,7 @@
     <com.google.android.material.textfield.TextInputEditText
         style="@style/detail_text_field"
         android:id="@+id/task_title"
+        android:inputType="textCapSentences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_task_title"
@@ -17,6 +18,7 @@
     <com.google.android.material.textfield.TextInputEditText
         style="@style/detail_text_field"
         android:id="@+id/task_description"
+        android:inputType="textCapSentences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_task_description"
