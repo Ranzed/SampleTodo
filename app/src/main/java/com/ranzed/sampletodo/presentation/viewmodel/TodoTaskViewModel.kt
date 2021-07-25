@@ -24,6 +24,7 @@ class TodoTaskViewModel : ViewModel() {
     val Title : MutableLiveData<String> = MutableLiveData("")
     val Description : MutableLiveData<String> = MutableLiveData()
     val Datetime : MutableLiveData<String> = MutableLiveData()
+    val IsDone : MutableLiveData<Boolean> = MutableLiveData(false)
     val CanSave : MutableLiveData<Boolean> = MutableLiveData(false)
     val CanDelete : MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -39,6 +40,8 @@ class TodoTaskViewModel : ViewModel() {
             Description.postValue(task.Description)
             dateTimeField = task.Datetime
             Datetime.postValue(task.Datetime.format())
+            IsDone.postValue(task.IsDone)
+
             IsLoading.postValue(false)
             CanSave.postValue(true) // после загрузки можем сохранять
             CanDelete.postValue(task.id != 0)
@@ -71,6 +74,7 @@ class TodoTaskViewModel : ViewModel() {
         return TodoTask(todoTaskId,
             Title.value ?: "",
             Description.value,
-            dateTimeField ?: Date(0), false )
+            dateTimeField ?: Date(0),
+            IsDone.value ?: false)
     }
 }

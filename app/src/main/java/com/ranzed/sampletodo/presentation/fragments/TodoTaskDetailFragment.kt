@@ -3,6 +3,7 @@ package com.ranzed.sampletodo.presentation.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
@@ -23,6 +24,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
     private val title : EditText by lazy { initTitle() }
     private val description : EditText by lazy { initDescription() }
     private val dateTime : TextView by lazy { initDateTime() }
+    private val isDone : CheckBox by lazy { initCheckBox() }
     private val buttonSave : Button by lazy { initSaveButton() }
     private val buttonDelete : Button by lazy { initDeleteButton() }
 
@@ -36,6 +38,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         vm.Title.observe(viewLifecycleOwner, { t -> setTextValue(t, title) })
         vm.Description.observe(viewLifecycleOwner, { t -> setTextValue(t, description) })
         vm.Datetime.observe(viewLifecycleOwner, { t -> setTextValue(t, dateTime) })
+        vm.IsDone.observe(viewLifecycleOwner, {t -> if (isDone.isChecked != t) isDone.isChecked = t})
         vm.CanSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
         vm.CanDelete.observe(viewLifecycleOwner, { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
     }
@@ -70,6 +73,12 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         val t = requireView().findViewById<TextView>(R.id.task_datetime)
         t.setOnClickListener(this)
         return t
+    }
+
+    private fun initCheckBox() : CheckBox {
+        val ch = requireView().findViewById<CheckBox>(R.id.task_is_done)
+        ch.setOnCheckedChangeListener { _, isChecked -> vm.IsDone.postValue(isChecked) }
+        return ch
     }
 
     private fun initSaveButton() : Button {
