@@ -3,7 +3,6 @@ package com.ranzed.sampletodo.di
 
 import android.content.Context
 import com.ranzed.sampletodo.MainActivity
-import com.ranzed.sampletodo.data.TodoTaskRepository
 import com.ranzed.sampletodo.domain.usecase.ShowDetail
 import com.ranzed.sampletodo.domain.usecase.ShowList
 import com.ranzed.sampletodo.presentation.viewmodel.TodoListViewModel
