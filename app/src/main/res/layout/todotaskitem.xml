@@ -44,8 +44,9 @@
             android:layout_width="wrap_content" />
 
         <TextView
-            style="@style/list_item_description"
+            style="@style/list_item_is_done"
             android:id="@+id/done"
+            android:text="@string/hint_task_done"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="right"

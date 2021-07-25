@@ -1,5 +1,6 @@
 package com.ranzed.sampletodo.presentation.view
 
+import android.graphics.Paint
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,18 @@ class TodoTaskViewHolder(itemView: View, private val clickListener: ListItemClic
         title.text = task.Title
         description.text = task.Description
         dateTime.text = task.Datetime.format()
-        done.visibility = if (task.IsDone) View.VISIBLE else View.GONE
+        if (task.IsDone) styleIsDone() else styleIsNotDone()
+    }
+
+    private fun styleIsDone() {
+        title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        description.maxLines = 1
+        done.visibility = View.VISIBLE
+    }
+
+    private fun styleIsNotDone() {
+        title.paintFlags = title.paintFlags and (Paint.STRIKE_THRU_TEXT_FLAG xor Int.MAX_VALUE)
+        description.maxLines = 5
+        done.visibility = View.GONE
     }
 }
