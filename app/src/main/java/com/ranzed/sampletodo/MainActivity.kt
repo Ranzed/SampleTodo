@@ -3,6 +3,7 @@ package com.ranzed.sampletodo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.ranzed.sampletodo.domain.usecase.ShowList
 import com.ranzed.sampletodo.presentation.ITodoTaskNavigator
 import com.ranzed.sampletodo.presentation.TodoTaskNavigation
@@ -38,5 +39,9 @@ class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
 
     override fun popFragment() {
         supportFragmentManager.popBackStack()
+    }
+
+    override fun showSnackbar(resId : Int) {
+        Snackbar.make(findViewById(R.id.root), resId, Snackbar.LENGTH_SHORT).show()
     }
 }

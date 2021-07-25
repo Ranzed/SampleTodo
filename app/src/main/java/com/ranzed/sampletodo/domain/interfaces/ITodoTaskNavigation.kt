@@ -8,4 +8,7 @@ interface ITodoTaskNavigation {
 
     fun showPreviousPage()
 
+    // instead of SingleLiveEvent
+    fun showSnackbar(resId : Int)
+
 }

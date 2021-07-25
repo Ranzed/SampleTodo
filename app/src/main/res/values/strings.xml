@@ -10,6 +10,13 @@
     <string name="hint_task_description">Укажите описание задачи</string>
     <string name="hint_task_time">Укажите срок</string>
     <string name="hint_task_done">Выполнено</string>
-
     <string name="title_date_dialog">Укажите срок</string>
+
+
+    <string name="toast_title_empty">Необходимо заполнить наименование</string>
+    <string name="toast_saved">Сохранено</string>
+    <string name="toast_deleted">Удалено</string>
+
+    <!-- Material datetime picker -->
+    <string name="mtrl_picker_cancel">Сбросить</string>
 </resources>

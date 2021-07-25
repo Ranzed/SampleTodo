@@ -32,9 +32,15 @@ class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
         val n = checkNotNull(navigator) { "Need setup navigator screen" }
         n.popFragment()
     }
+
+    override fun showSnackbar(resId : Int) {
+        val n = checkNotNull(navigator) { "Need setup navigator screen" }
+        n.showSnackbar(resId)
+    }
 }
 
 interface ITodoTaskNavigator {
     fun pushFragment(f : Fragment)
     fun popFragment()
+    fun showSnackbar(resId : Int)
 }

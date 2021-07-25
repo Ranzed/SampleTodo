@@ -55,10 +55,6 @@ class TodoTaskViewModel : ViewModel() {
 
     fun clickSave() {
         val task = rebuildTodoTask()
-        if (task.Title.isEmpty()) {
-            // todo snackbar info
-            return
-        }
         viewModelScope.launch(Dispatchers.IO) {
             showDetail.saveTodoTask(task)
         }
