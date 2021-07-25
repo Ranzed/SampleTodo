@@ -13,7 +13,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, LocalStoreModule::class])
+@Component(modules = [AppModule::class])
 interface AppComponent {
 
     @Component.Factory
