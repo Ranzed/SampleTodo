@@ -17,8 +17,10 @@ import com.ranzed.sampletodo.presentation.viewmodel.TodoListViewModel
 class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListener {
 
     private var recycler : RecyclerView? = null
+    private var emptyStub : View? = null
     private val adapter = TodoListAdapter { vm.clickTodoItem(it) }
-    private var loadingBox : ViewGroup? = null
+    private var loadingContainer : ViewGroup? = null
+    private var listContainer : ViewGroup? = null
     private var button : Button? = null
 
     private lateinit var vm : TodoListViewModel
@@ -26,12 +28,15 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler = initRecycler()
-        loadingBox = requireView().findViewById(R.id.loading_container)
+        emptyStub = requireView().findViewById(R.id.empty_stub)
+        loadingContainer = requireView().findViewById(R.id.loading_container)
+        listContainer = requireView().findViewById(R.id.list_container)
         button = initCreateButton()
 
         vm = ViewModelProvider(requireActivity()).get(TodoListViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
-        vm.IsLoading.observe(viewLifecycleOwner, { setupViewVisibility(it) })
+        vm.IsLoading.observe(viewLifecycleOwner, { setupContainersVisibility(it) })
+        vm.IsEmpty.observe(viewLifecycleOwner, { setupListVisibility(it) })
         vm.TodoTasks.observe(viewLifecycleOwner, { setupList(it) })
     }
 
@@ -53,10 +58,15 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
         return b
     }
 
-    private fun setupViewVisibility(isLoading : Boolean) {
-        loadingBox?.visibility = if (isLoading) View.VISIBLE else View.GONE
-        recycler?.visibility = if (isLoading) View.GONE else View.VISIBLE
+    private fun setupContainersVisibility(isLoading : Boolean) {
+        loadingContainer?.visibility = if (isLoading) View.VISIBLE else View.GONE
+        listContainer?.visibility = if (isLoading) View.GONE else View.VISIBLE
         button?.isEnabled = !isLoading
+    }
+
+    private fun setupListVisibility(isEmpty : Boolean) {
+        recycler?.visibility = if (isEmpty) View.GONE else View.VISIBLE
+        emptyStub?.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
     private fun setupList(todoTasks : List<TodoTask>) {

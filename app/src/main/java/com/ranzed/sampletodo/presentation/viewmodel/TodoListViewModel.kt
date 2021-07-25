@@ -16,7 +16,7 @@ class TodoListViewModel : ViewModel() {
     @Inject lateinit var showDetail: ShowDetail
 
     val TodoTasks : MutableLiveData<List<TodoTask>> = MutableLiveData()
-
+    val IsEmpty : MutableLiveData<Boolean> = MutableLiveData(false)
     val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun load() {
@@ -24,6 +24,7 @@ class TodoListViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = repo.loadAllTodoTasks()
             TodoTasks.postValue(tasks)
+            IsEmpty.postValue(tasks.count() ==  0)
             IsLoading.postValue(false)
         }
     }

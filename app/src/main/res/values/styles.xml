@@ -22,5 +22,10 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="list_empty">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
 
 </resources>
