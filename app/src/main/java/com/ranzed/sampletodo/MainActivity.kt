@@ -11,18 +11,16 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
 
-    @Inject
-    lateinit var showListUseCase : ShowList
+    @Inject lateinit var showListUseCase : ShowList
 
-    @Inject
-    lateinit var navigation : TodoTaskNavigation
+    @Inject lateinit var navigation : TodoTaskNavigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (applicationContext as App).appComponent.inject(this)
         setContentView(R.layout.activity_main)
         navigation.navigator = this
-        showListUseCase.run()
+        showListUseCase.run() // todo save running state in savedInstanceState
         supportFragmentManager.addOnBackStackChangedListener {
             val count = supportFragmentManager.backStackEntryCount
             if (count == 0)

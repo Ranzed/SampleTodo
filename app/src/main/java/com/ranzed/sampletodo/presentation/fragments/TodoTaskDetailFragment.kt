@@ -41,6 +41,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         vm.IsDone.observe(viewLifecycleOwner, {t -> if (isDone.isChecked != t) isDone.isChecked = t})
         vm.CanSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
         vm.CanDelete.observe(viewLifecycleOwner, { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
+        vm.load(arguments?.getInt(id_key) ?: 0)
     }
 
     private fun setTextValue(s : String?, t : TextView) {
@@ -88,7 +89,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
     }
 
     private fun initDeleteButton() : Button {
-        val b = requireView().findViewById<Button>(R.id.btn_delete);
+        val b = requireView().findViewById<Button>(R.id.btn_delete)
         b.setOnClickListener(this)
         return b
     }
@@ -102,11 +103,6 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         datePicker.addOnPositiveButtonClickListener { vm.setDateTime(Date(it)) }
         datePicker.addOnNegativeButtonClickListener { vm.setDateTime(Date(0)) }
         datePicker.show(childFragmentManager, this.javaClass.name)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        vm.load(arguments?.getInt(id_key) ?: 0) // load on every resume
     }
 
     override fun onClick(v: View?) {
