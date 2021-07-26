@@ -32,7 +32,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm = ViewModelProvider(requireActivity()).get(TodoTaskViewModel::class.java)
+        vm = ViewModelProvider(this).get(TodoTaskViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
 
         vm.Title.observe(viewLifecycleOwner, { t -> setTextValue(t, title) })
@@ -78,7 +78,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     private fun initCheckBox() : CheckBox {
         val ch = requireView().findViewById<CheckBox>(R.id.task_is_done)
-        ch.setOnCheckedChangeListener { _, isChecked -> vm.IsDone.postValue(isChecked) }
+        ch.setOnCheckedChangeListener { _, isChecked -> vm.IsDone.value = isChecked }
         return ch
     }
 
