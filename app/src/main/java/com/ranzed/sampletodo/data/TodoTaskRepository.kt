@@ -9,7 +9,8 @@ import javax.inject.Singleton
  * Only local datasource, pretty easy repository.
  */
 @Singleton
-class TodoTaskRepository @Inject constructor(private val repo : LocalDataSource) : ITodoTaskRepository {
+class TodoTaskRepository @Inject constructor(private val repo: LocalDataSource) :
+    ITodoTaskRepository {
 
     override fun loadAllTodoTasks(): List<TodoTask> {
         return repo.loadAllTodoTasks()

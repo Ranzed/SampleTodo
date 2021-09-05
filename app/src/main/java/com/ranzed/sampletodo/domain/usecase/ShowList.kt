@@ -5,8 +5,9 @@ import com.ranzed.sampletodo.domain.interfaces.ITodoTaskRepository
 import javax.inject.Inject
 
 class ShowList @Inject constructor(
-    private val repo : ITodoTaskRepository,
-    private val navigation: ITodoTaskNavigation) {
+    private val repo: ITodoTaskRepository,
+    private val navigation: ITodoTaskNavigation
+) {
 
     fun run() {
         navigation.showTodoTasksList()

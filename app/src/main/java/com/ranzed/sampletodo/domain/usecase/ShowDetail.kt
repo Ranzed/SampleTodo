@@ -7,10 +7,11 @@ import com.ranzed.sampletodo.domain.interfaces.ITodoTaskRepository
 import javax.inject.Inject
 
 class ShowDetail @Inject constructor(
-    private val repo : ITodoTaskRepository,
-    private val navigation: ITodoTaskNavigation) {
+    private val repo: ITodoTaskRepository,
+    private val navigation: ITodoTaskNavigation
+) {
 
-    fun run(id : Int) {
+    fun run(id: Int) {
         navigation.showTodoTaskItem(id)
     }
 
@@ -18,7 +19,7 @@ class ShowDetail @Inject constructor(
         navigation.showTodoTaskItem(0)
     }
 
-    fun saveTodoTask(t : TodoTask) {
+    fun saveTodoTask(t: TodoTask) {
         if (t.Title.isEmpty()) {
             navigation.showSnackbar(R.string.toast_title_empty)
             return
@@ -28,7 +29,7 @@ class ShowDetail @Inject constructor(
         navigation.showSnackbar(R.string.toast_saved)
     }
 
-    fun deleteTodoTask(id : Int) {
+    fun deleteTodoTask(id: Int) {
         repo.deleteTodoTask(id)
         navigation.showPreviousPage()
         navigation.showSnackbar(R.string.toast_deleted)
