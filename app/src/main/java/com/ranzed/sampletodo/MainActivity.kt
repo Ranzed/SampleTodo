@@ -11,9 +11,11 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
 
-    @Inject lateinit var showListUseCase : ShowList
+    @Inject
+    lateinit var showListUseCase: ShowList
 
-    @Inject lateinit var navigation : TodoTaskNavigation
+    @Inject
+    lateinit var navigation: TodoTaskNavigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
         supportFragmentManager.popBackStack()
     }
 
-    override fun showSnackbar(resId : Int) {
+    override fun showSnackbar(resId: Int) {
         Snackbar.make(findViewById(R.id.root), resId, Snackbar.LENGTH_SHORT).show()
     }
 }

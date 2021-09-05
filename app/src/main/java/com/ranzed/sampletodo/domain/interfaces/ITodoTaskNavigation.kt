@@ -4,11 +4,11 @@ interface ITodoTaskNavigation {
 
     fun showTodoTasksList()
 
-    fun showTodoTaskItem(id : Int)
+    fun showTodoTaskItem(id: Int)
 
     fun showPreviousPage()
 
     // instead of SingleLiveEvent
-    fun showSnackbar(resId : Int)
+    fun showSnackbar(resId: Int)
 
 }

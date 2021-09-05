@@ -12,20 +12,22 @@ import javax.inject.Inject
 
 class TodoListViewModel : ViewModel() {
 
-    @Inject lateinit var repo : ITodoTaskRepository
-    @Inject lateinit var showDetail: ShowDetail
+    @Inject
+    lateinit var repo: ITodoTaskRepository
+    @Inject
+    lateinit var showDetail: ShowDetail
 
-    val TodoTasks : MutableLiveData<List<TodoTask>> = MutableLiveData()
-    val IsEmpty : MutableLiveData<Boolean> = MutableLiveData(false)
-    val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
+    val todoTasks: MutableLiveData<List<TodoTask>> = MutableLiveData()
+    val isEmpty: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun load() {
-        IsLoading.postValue(true)
+        isLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             val tasks = repo.loadAllTodoTasks()
-            TodoTasks.postValue(tasks)
-            IsEmpty.postValue(tasks.count() ==  0)
-            IsLoading.postValue(false)
+            todoTasks.postValue(tasks)
+            isEmpty.postValue(tasks.count() == 0)
+            isLoading.postValue(false)
         }
     }
 
@@ -33,7 +35,7 @@ class TodoListViewModel : ViewModel() {
         showDetail.run()
     }
 
-    fun clickTodoItem(id : Int) {
+    fun clickTodoItem(id: Int) {
         showDetail.run(id)
     }
 }

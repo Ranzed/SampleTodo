@@ -17,15 +17,15 @@ interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance ctx : Context) : AppComponent
+        fun create(@BindsInstance ctx: Context): AppComponent
     }
 
 
-    fun showListUC() : ShowList
+    fun showListUC(): ShowList
 
-    fun showDetailUC() : ShowDetail
+    fun showDetailUC(): ShowDetail
 
-    fun inject(a : MainActivity)
+    fun inject(a: MainActivity)
     fun inject(vm: TodoListViewModel)
     fun inject(vm: TodoTaskViewModel)
 }

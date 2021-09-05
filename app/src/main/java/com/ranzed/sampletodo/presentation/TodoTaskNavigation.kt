@@ -14,18 +14,18 @@ import javax.inject.Singleton
 @Singleton
 class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
 
-    var navigator : ITodoTaskNavigator? = null
+    var navigator: ITodoTaskNavigator? = null
 
     override fun showTodoTasksList() {
         val n = checkNotNull(navigator) { "Need setup navigator screen" }
         n.pushFragment(TodoTaskListFragment())
     }
 
-    override fun showTodoTaskItem(id : Int) {
+    override fun showTodoTaskItem(id: Int) {
         val n = checkNotNull(navigator) { "Need setup navigator screen" }
         n.pushFragment(TodoTaskDetailFragment().also {
-            it.arguments = Bundle().also {
-                    b -> b.putInt(TodoTaskDetailFragment.id_key, id) } })
+            it.arguments = Bundle().also { b -> b.putInt(TodoTaskDetailFragment.id_key, id) }
+        })
     }
 
     override fun showPreviousPage() {
@@ -33,14 +33,14 @@ class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
         n.popFragment()
     }
 
-    override fun showSnackbar(resId : Int) {
+    override fun showSnackbar(resId: Int) {
         val n = checkNotNull(navigator) { "Need setup navigator screen" }
         n.showSnackbar(resId)
     }
 }
 
 interface ITodoTaskNavigator {
-    fun pushFragment(f : Fragment)
+    fun pushFragment(f: Fragment)
     fun popFragment()
-    fun showSnackbar(resId : Int)
+    fun showSnackbar(resId: Int)
 }

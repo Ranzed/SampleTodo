@@ -21,74 +21,79 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
         const val id_key = "todo_key"
     }
 
-    private val title : EditText by lazy { initTitle() }
-    private val description : EditText by lazy { initDescription() }
-    private val dateTime : TextView by lazy { initDateTime() }
-    private val isDone : CheckBox by lazy { initCheckBox() }
-    private val buttonSave : Button by lazy { initSaveButton() }
-    private val buttonDelete : Button by lazy { initDeleteButton() }
+    private val title: EditText by lazy { initTitle() }
+    private val description: EditText by lazy { initDescription() }
+    private val dateTime: TextView by lazy { initDateTime() }
+    private val isDone: CheckBox by lazy { initCheckBox() }
+    private val buttonSave: Button by lazy { initSaveButton() }
+    private val buttonDelete: Button by lazy { initDeleteButton() }
 
-    private lateinit var vm : TodoTaskViewModel
+    private lateinit var vm: TodoTaskViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm = ViewModelProvider(this).get(TodoTaskViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
 
-        vm.Title.observe(viewLifecycleOwner, { t -> setTextValue(t, title) })
-        vm.Description.observe(viewLifecycleOwner, { t -> setTextValue(t, description) })
-        vm.Datetime.observe(viewLifecycleOwner, { t -> setTextValue(t, dateTime) })
-        vm.IsDone.observe(viewLifecycleOwner, {t -> if (isDone.isChecked != t) isDone.isChecked = t})
-        vm.CanSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
-        vm.CanDelete.observe(viewLifecycleOwner, { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
+        vm.title.observe(viewLifecycleOwner, { t -> setTextValue(t, title) })
+        vm.description.observe(viewLifecycleOwner, { t -> setTextValue(t, description) })
+        vm.datetime.observe(viewLifecycleOwner, { t -> setTextValue(t, dateTime) })
+        vm.isDone.observe(
+            viewLifecycleOwner,
+            { t -> if (isDone.isChecked != t) isDone.isChecked = t })
+        vm.canSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
+        vm.canDelete.observe(
+            viewLifecycleOwner,
+            { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
         vm.load(arguments?.getInt(id_key) ?: 0)
     }
 
-    private fun setTextValue(s : String?, t : TextView) {
+    private fun setTextValue(s: String?, t: TextView) {
         val newText = s ?: ""
         if (!newText.equals(t.text.toString()))
             t.text = newText
     }
 
 
-    private fun initTitle() : EditText {
+    private fun initTitle(): EditText {
         val e = requireView().findViewById<EditText>(R.id.task_title)
         e.doAfterTextChanged { et ->
             val s = et.toString()
-            if (!s.equals(vm.Title.value))
-                vm.Title.value = s
+            if (!s.equals(vm.title.value))
+                vm.title.value = s
         }
         return e
     }
 
-    private fun initDescription() : EditText {
+    private fun initDescription(): EditText {
         val e = requireView().findViewById<EditText>(R.id.task_description)
         e.doAfterTextChanged { et ->
             val s = et.toString()
-            if (!s.equals(vm.Description.value))
-                vm.Description.value = s}
+            if (!s.equals(vm.description.value))
+                vm.description.value = s
+        }
         return e
     }
 
-    private fun initDateTime() : TextView {
+    private fun initDateTime(): TextView {
         val t = requireView().findViewById<TextView>(R.id.task_datetime)
         t.setOnClickListener(this)
         return t
     }
 
-    private fun initCheckBox() : CheckBox {
+    private fun initCheckBox(): CheckBox {
         val ch = requireView().findViewById<CheckBox>(R.id.task_is_done)
-        ch.setOnCheckedChangeListener { _, isChecked -> vm.IsDone.value = isChecked }
+        ch.setOnCheckedChangeListener { _, isChecked -> vm.isDone.value = isChecked }
         return ch
     }
 
-    private fun initSaveButton() : Button {
+    private fun initSaveButton(): Button {
         val b = requireView().findViewById<Button>(R.id.btn_save)
         b.setOnClickListener(this)
         return b
     }
 
-    private fun initDeleteButton() : Button {
+    private fun initDeleteButton(): Button {
         val b = requireView().findViewById<Button>(R.id.btn_delete)
         b.setOnClickListener(this)
         return b
@@ -96,9 +101,9 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     private fun chooseDate() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText(getString(R.string.title_date_dialog))
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
+            .setTitleText(getString(R.string.title_date_dialog))
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
 
         datePicker.addOnPositiveButtonClickListener { vm.setDateTime(Date(it)) }
         datePicker.addOnNegativeButtonClickListener { vm.setDateTime(Date(0)) }

@@ -9,15 +9,15 @@ import androidx.room.Query
 interface TodoTaskDAO {
 
     @Query("SELECT * FROM TodoTaskEntity")
-    fun loadAllTodoTasks() : List<TodoTaskEntity>
+    fun loadAllTodoTasks(): List<TodoTaskEntity>
 
     @Query("SELECT * FROM TodoTaskEntity WHERE id=:taskId")
-    fun getTodoTask(taskId : Int) : TodoTaskEntity?
+    fun getTodoTask(taskId: Int): TodoTaskEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveTodoTask(t : TodoTaskEntity) : Long
+    fun saveTodoTask(t: TodoTaskEntity): Long
 
     @Query("DELETE FROM TodoTaskEntity WHERE id=:taskId")
-    fun deleteTodoTask(taskId : Int)
+    fun deleteTodoTask(taskId: Int)
 
 }

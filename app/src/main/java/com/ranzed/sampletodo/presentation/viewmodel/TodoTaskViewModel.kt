@@ -14,43 +14,45 @@ import javax.inject.Inject
 
 class TodoTaskViewModel : ViewModel() {
 
-    @Inject lateinit var repo : ITodoTaskRepository
-    @Inject lateinit var showDetail: ShowDetail
+    @Inject
+    lateinit var repo: ITodoTaskRepository
+    @Inject
+    lateinit var showDetail: ShowDetail
 
-    private var dateTimeField : Date? = null
-    private var todoTaskId : Int = 0
+    private var dateTimeField: Date? = null
+    private var todoTaskId: Int = 0
 
-    val IsLoading : MutableLiveData<Boolean> = MutableLiveData(true)
-    val Title : MutableLiveData<String> = MutableLiveData("")
-    val Description : MutableLiveData<String> = MutableLiveData()
-    val Datetime : MutableLiveData<String> = MutableLiveData()
-    val IsDone : MutableLiveData<Boolean> = MutableLiveData(false)
-    val CanSave : MutableLiveData<Boolean> = MutableLiveData(false)
-    val CanDelete : MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    val title: MutableLiveData<String> = MutableLiveData("")
+    val description: MutableLiveData<String> = MutableLiveData()
+    val datetime: MutableLiveData<String> = MutableLiveData()
+    val isDone: MutableLiveData<Boolean> = MutableLiveData(false)
+    val canSave: MutableLiveData<Boolean> = MutableLiveData(false)
+    val canDelete: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun load(id : Int) {
-        IsLoading.value = true
+    fun load(id: Int) {
+        isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            CanSave.postValue(false)
-            CanDelete.postValue(false)
+            canSave.postValue(false)
+            canDelete.postValue(false)
 
             val task = repo.getTodoTask(id)
             todoTaskId = id
-            Title.postValue(task.Title)
-            Description.postValue(task.Description)
+            title.postValue(task.Title)
+            description.postValue(task.Description)
             dateTimeField = task.Datetime
-            Datetime.postValue(task.Datetime.format())
-            IsDone.postValue(task.IsDone)
+            datetime.postValue(task.Datetime.format())
+            isDone.postValue(task.IsDone)
 
-            IsLoading.postValue(false)
-            CanSave.postValue(true) // после загрузки можем сохранять
-            CanDelete.postValue(task.id != 0)
+            isLoading.postValue(false)
+            canSave.postValue(true) // после загрузки можем сохранять
+            canDelete.postValue(task.id != 0)
         }
     }
 
-    fun setDateTime(d : Date) {
+    fun setDateTime(d: Date) {
         dateTimeField = d
-        Datetime.postValue(d.format())
+        datetime.postValue(d.format())
     }
 
     fun clickSave() {
@@ -66,11 +68,13 @@ class TodoTaskViewModel : ViewModel() {
         }
     }
 
-    private fun rebuildTodoTask() : TodoTask {
-        return TodoTask(todoTaskId,
-            Title.value ?: "",
-            Description.value,
+    private fun rebuildTodoTask(): TodoTask {
+        return TodoTask(
+            todoTaskId,
+            title.value ?: "",
+            description.value,
             dateTimeField ?: Date(0),
-            IsDone.value ?: false)
+            isDone.value ?: false
+        )
     }
 }

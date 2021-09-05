@@ -11,8 +11,8 @@ import dagger.Module
 abstract class AppModule {
 
     @Binds
-    abstract fun bindTodoTaskRepo(repo : TodoTaskRepository) : ITodoTaskRepository
+    abstract fun bindTodoTaskRepo(repo: TodoTaskRepository): ITodoTaskRepository
 
     @Binds
-    abstract fun bindTodoTaskNavigation(navigation: TodoTaskNavigation) : ITodoTaskNavigation
+    abstract fun bindTodoTaskNavigation(navigation: TodoTaskNavigation): ITodoTaskNavigation
 }
