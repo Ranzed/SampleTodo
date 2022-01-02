@@ -46,9 +46,9 @@ class TodoTaskViewModel : ViewModel() {
             datetime.postValue(task.Datetime.format())
             isDone.postValue(task.IsDone)
 
-            isLoading.postValue(false)
             canSave.postValue(true) // после загрузки можем сохранять
             canDelete.postValue(task.id != 0)
+            isLoading.postValue(false)
         }
     }
 

@@ -44,6 +44,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
             viewLifecycleOwner,
             { t -> if (isDone.isChecked != t) isDone.isChecked = t })
         vm.canSave.observe(viewLifecycleOwner, { t -> buttonSave.isEnabled = t })
+        vm.isLoading.observe(viewLifecycleOwner, { t -> buttonSave.visibility = if (t) View.GONE else View.VISIBLE })
         vm.canDelete.observe(
             viewLifecycleOwner,
             { t -> buttonDelete.visibility = if (t) View.VISIBLE else View.GONE })
