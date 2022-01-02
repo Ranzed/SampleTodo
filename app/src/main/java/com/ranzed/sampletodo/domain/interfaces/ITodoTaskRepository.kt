@@ -4,11 +4,11 @@ import com.ranzed.sampletodo.domain.TodoTask
 
 interface ITodoTaskRepository {
 
-    fun loadAllTodoTasks(): List<TodoTask>
+    suspend fun loadAllTodoTasks(): List<TodoTask>
 
-    fun getTodoTask(id: Int): TodoTask
+    suspend fun getTodoTask(id: Int): TodoTask
 
-    fun saveTodoTask(t: TodoTask)
+    suspend fun saveTodoTask(t: TodoTask)
 
-    fun deleteTodoTask(id: Int)
+    suspend fun deleteTodoTask(id: Int)
 }

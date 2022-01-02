@@ -22,7 +22,7 @@ class ShowDetail @Inject constructor(
         navigation.showTodoTaskItem(0)
     }
 
-    fun saveTodoTask(t: TodoTask) {
+    suspend fun saveTodoTask(t: TodoTask) {
         Log.i(javaClass.name, "saveTodoTask on thread " + Thread.currentThread().name)
         if (t.Title.isEmpty()) {
             navigation.showSnackbar(R.string.toast_title_empty)
@@ -33,7 +33,7 @@ class ShowDetail @Inject constructor(
         navigation.showSnackbar(R.string.toast_saved)
     }
 
-    fun deleteTodoTask(id: Int) {
+    suspend fun deleteTodoTask(id: Int) {
         Log.i(javaClass.name, "deleteTodoTask on thread " + Thread.currentThread().name)
         repo.deleteTodoTask(id)
         navigation.showPreviousPage()

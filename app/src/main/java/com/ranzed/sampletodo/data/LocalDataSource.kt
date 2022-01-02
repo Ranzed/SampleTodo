@@ -23,7 +23,7 @@ class LocalDataSource @Inject constructor(ctx: Context) {
         TodoTaskDB::class.java, dbName
     ).build()
 
-    fun loadAllTodoTasks(): List<TodoTask> {
+    suspend fun loadAllTodoTasks(): List<TodoTask> {
         val taskEntities = roomDb.dao().loadAllTodoTasks()
         return taskEntities.map {
             TodoTask(
@@ -32,20 +32,20 @@ class LocalDataSource @Inject constructor(ctx: Context) {
         }
     }
 
-    fun getTodoTask(id: Int): TodoTask {
+    suspend fun getTodoTask(id: Int): TodoTask {
         val t = roomDb.dao().getTodoTask(id)
         if (t != null)
             return TodoTask(t.id, t.Title, t.Description, Date(t.Datetime), t.IsDone)
         return TodoTask(0, "", null, Date(0), false)
     }
 
-    fun saveTodoTask(t: TodoTask) {
+    suspend fun saveTodoTask(t: TodoTask) {
         val newId = roomDb.dao()
             .saveTodoTask(TodoTaskEntity(t.id, t.Title, t.Description, t.Datetime.time, t.IsDone))
         Log.i("LocalDataSource", "Save todoTask with id = {%s}".format(newId))
     }
 
-    fun deleteTodoTask(id: Int) {
+    suspend fun deleteTodoTask(id: Int) {
         roomDb.dao().deleteTodoTask(id)
     }
 }
