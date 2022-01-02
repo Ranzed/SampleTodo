@@ -1,5 +1,6 @@
 package com.ranzed.sampletodo.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +34,7 @@ class TodoTaskViewModel : ViewModel() {
     fun load(id: Int) {
         isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
+            Log.i(javaClass.name, "start coroutine on thread " + Thread.currentThread().name)
             canSave.postValue(false)
             canDelete.postValue(false)
 

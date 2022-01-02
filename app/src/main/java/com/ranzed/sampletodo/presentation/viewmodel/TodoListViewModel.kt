@@ -1,5 +1,6 @@
 package com.ranzed.sampletodo.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ class TodoListViewModel : ViewModel() {
     fun load() {
         isLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
+            Log.i(javaClass.name, "start coroutine on thread " + Thread.currentThread().name)
             val tasks = repo.loadAllTodoTasks()
             todoTasks.postValue(tasks)
             isEmpty.postValue(tasks.count() == 0)

@@ -1,6 +1,7 @@
 package com.ranzed.sampletodo.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -27,6 +28,7 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(javaClass.name, "onViewCreated on thread " + Thread.currentThread().name)
         recycler = initRecycler()
         emptyStub = requireView().findViewById(R.id.empty_stub)
         loadingContainer = requireView().findViewById(R.id.loading_container)

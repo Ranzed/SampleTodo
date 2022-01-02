@@ -1,6 +1,7 @@
 package com.ranzed.sampletodo.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -32,6 +33,7 @@ class TodoTaskDetailFragment : Fragment(R.layout.detail_fragment), View.OnClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(javaClass.name, "onViewCreated on thread " + Thread.currentThread().name)
         vm = ViewModelProvider(this).get(TodoTaskViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
 
