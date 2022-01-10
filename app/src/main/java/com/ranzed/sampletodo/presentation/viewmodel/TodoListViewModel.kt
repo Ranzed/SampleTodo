@@ -25,7 +25,7 @@ class TodoListViewModel : ViewModel() {
     fun load() {
         isLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            Log.i(javaClass.name, "start coroutine on thread " + Thread.currentThread().name)
+            Log.i(javaClass.name, "start coroutine on thread ${Thread.currentThread().name}")
             val tasks = repo.loadAllTodoTasks()
             todoTasks.postValue(tasks)
             isEmpty.postValue(tasks.count() == 0)
@@ -33,11 +33,6 @@ class TodoListViewModel : ViewModel() {
         }
     }
 
-    fun clickCreateBtn() {
-        showDetail.run()
-    }
-
-    fun clickTodoItem(id: Int) {
-        showDetail.run(id)
-    }
+    fun clickCreateBtn() = showDetail.run()
+    fun clickTodoItem(id: Int) = showDetail.run(id)
 }

@@ -34,7 +34,7 @@ class TodoTaskViewModel : ViewModel() {
     fun load(id: Int) {
         isLoading.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            Log.i(javaClass.name, "start coroutine on thread " + Thread.currentThread().name)
+            Log.i(javaClass.name, "start coroutine on thread ${Thread.currentThread().name}")
             canSave.postValue(false)
             canDelete.postValue(false)
 
@@ -70,13 +70,11 @@ class TodoTaskViewModel : ViewModel() {
         }
     }
 
-    private fun rebuildTodoTask(): TodoTask {
-        return TodoTask(
-            todoTaskId,
-            title.value ?: "",
-            description.value,
-            dateTimeField ?: Date(0),
-            isDone.value ?: false
-        )
-    }
+    private fun rebuildTodoTask() = TodoTask(
+        todoTaskId,
+        title.value ?: "",
+        description.value,
+        dateTimeField ?: Date(0),
+        isDone.value ?: false
+    )
 }

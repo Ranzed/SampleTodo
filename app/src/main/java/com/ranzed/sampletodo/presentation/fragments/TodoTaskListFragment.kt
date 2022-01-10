@@ -28,12 +28,16 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(javaClass.name, "onViewCreated on thread " + Thread.currentThread().name)
-        recycler = initRecycler()
-        emptyStub = requireView().findViewById(R.id.empty_stub)
-        loadingContainer = requireView().findViewById(R.id.loading_container)
-        listContainer = requireView().findViewById(R.id.list_container)
-        button = initCreateButton()
+        Log.i(javaClass.name, "onViewCreated on thread ${Thread.currentThread().name}")
+        with(requireView()) {
+            emptyStub = findViewById(R.id.empty_stub)
+            loadingContainer = findViewById(R.id.loading_container)
+            listContainer = findViewById(R.id.list_container)
+            recycler = initRecycler(findViewById(R.id.recycler))
+            button = findViewById<Button>(R.id.btn_create_new).apply {
+                setOnClickListener(this@TodoTaskListFragment)
+            }
+        }
 
         vm = ViewModelProvider(requireActivity()).get(TodoListViewModel::class.java)
         (requireContext().applicationContext as App).appComponent.inject(vm)
@@ -47,17 +51,10 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
         vm.load() // load on every resume
     }
 
-    private fun initRecycler(): RecyclerView {
-        val r = requireView().findViewById<RecyclerView>(R.id.recycler)
+    private fun initRecycler(r: RecyclerView): RecyclerView {
         r.layoutManager = LinearLayoutManager(requireContext())
         r.adapter = adapter
         return r
-    }
-
-    private fun initCreateButton(): Button {
-        val b = requireView().findViewById<Button>(R.id.btn_create_new)
-        b.setOnClickListener(this)
-        return b
     }
 
     private fun setupContainersVisibility(isLoading: Boolean) {
@@ -79,9 +76,7 @@ class TodoTaskListFragment : Fragment(R.layout.list_fragment), View.OnClickListe
     }
 
     override fun onClick(v: View?) {
-        if (v == null)
-            return
-        when (v.id) {
+        when (v?.id) {
             R.id.btn_create_new -> vm.clickCreateBtn()
         }
     }
