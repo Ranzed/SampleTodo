@@ -10,7 +10,14 @@ import java.util.ArrayList
 class TodoListAdapter(private val listItemClickListener: ListItemClickListener) :
     RecyclerView.Adapter<TodoTaskViewHolder>() {
 
-    val items: MutableList<TodoTask> = ArrayList()
+    private val items: MutableList<TodoTask> = ArrayList()
+
+    fun setupList(todoTasks: List<TodoTask>) {
+        items.clear()
+        items.addAll(todoTasks)
+        notifyDataSetChanged()
+        // TODO use diffUtils
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
         return TodoTaskViewHolder(

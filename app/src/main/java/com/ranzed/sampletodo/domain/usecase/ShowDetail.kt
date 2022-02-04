@@ -12,14 +12,9 @@ class ShowDetail @Inject constructor(
     private val navigation: ITodoTaskNavigation
 ) {
 
-    fun run(id: Int) {
+    fun run(id: Int = 0) {
         Log.i(javaClass.name, "run(id = " + id +") on thread " + Thread.currentThread().name)
         navigation.showTodoTaskItem(id)
-    }
-
-    fun run() {
-        Log.i(javaClass.name, "run on thread " + Thread.currentThread().name)
-        navigation.showTodoTaskItem(0)
     }
 
     suspend fun saveTodoTask(t: TodoTask) {

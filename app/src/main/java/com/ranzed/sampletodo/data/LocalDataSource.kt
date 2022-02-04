@@ -23,29 +23,29 @@ class LocalDataSource @Inject constructor(ctx: Context) {
         TodoTaskDB::class.java, dbName
     ).build()
 
-    suspend fun loadAllTodoTasks(): List<TodoTask> {
-        val taskEntities = roomDb.dao().loadAllTodoTasks()
-        return taskEntities.map {
-            TodoTask(
-                it.id, it.Title, it.Description, Date(it.Datetime), it.IsDone
-            )
-        }
-    }
+    suspend fun loadAllTodoTasks(): List<TodoTask> =
+        roomDb.dao().loadAllTodoTasks()
+            .map {
+                TodoTask(
+                    it.id, it.Title, it.Description, Date(it.Datetime), it.IsDone
+                )
+            }
 
-    suspend fun getTodoTask(id: Int): TodoTask {
-        val t = roomDb.dao().getTodoTask(id)
-        if (t != null)
-            return TodoTask(t.id, t.Title, t.Description, Date(t.Datetime), t.IsDone)
-        return TodoTask(0, "", null, Date(0), false)
-    }
+
+    suspend fun getTodoTask(id: Int) =
+        roomDb.dao().getTodoTask(id)
+            ?.let {
+                TodoTask(it.id, it.Title, it.Description, Date(it.Datetime), it.IsDone)
+            } ?: TodoTask.createEmpty()
+
 
     suspend fun saveTodoTask(t: TodoTask) {
-        val newId = roomDb.dao()
+        roomDb.dao()
             .saveTodoTask(TodoTaskEntity(t.id, t.Title, t.Description, t.Datetime.time, t.IsDone))
-        Log.i("LocalDataSource", "Save todoTask with id = {%s}".format(newId))
+            .also {
+                Log.i("LocalDataSource", "Save todoTask with id = {%s}".format(it))
+            }
     }
 
-    suspend fun deleteTodoTask(id: Int) {
-        roomDb.dao().deleteTodoTask(id)
-    }
+    suspend fun deleteTodoTask(id: Int) = roomDb.dao().deleteTodoTask(id)
 }

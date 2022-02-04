@@ -9,5 +9,5 @@ data class TodoTaskEntity(
     val Title: String,
     val Description: String?,
     val Datetime: Long,
-    val IsDone: Boolean
+    val IsDone: Boolean,
 )

@@ -24,7 +24,7 @@ class TodoTaskNavigation @Inject constructor() : ITodoTaskNavigation {
     override fun showTodoTaskItem(id: Int) {
         val n = checkNotNull(navigator) { "Need setup navigator screen" }
         n.pushFragment(TodoTaskDetailFragment().also {
-            it.arguments = Bundle().also { b -> b.putInt(TodoTaskDetailFragment.id_key, id) }
+            it.arguments = Bundle().also { b -> b.putInt(TodoTaskDetailFragment.KEY_ID, id) }
         })
     }
 

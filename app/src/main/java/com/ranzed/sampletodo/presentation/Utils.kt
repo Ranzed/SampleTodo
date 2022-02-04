@@ -2,7 +2,7 @@ package com.ranzed.sampletodo.presentation
 
 
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 fun Date.format(): String {
     // todo cache SimpleDateFormat
