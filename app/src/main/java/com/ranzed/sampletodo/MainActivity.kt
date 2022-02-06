@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity(), ITodoTaskNavigator {
         navigation.navigator = this
         showListUseCase.run() // todo save running state in savedInstanceState
         supportFragmentManager.addOnBackStackChangedListener {
-            val count = supportFragmentManager.backStackEntryCount
-            if (count == 0)
+            if (supportFragmentManager.backStackEntryCount == 0)
                 finish()
         }
     }
